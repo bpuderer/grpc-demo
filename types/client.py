@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import grpc
 
 import types_pb2
@@ -18,6 +20,10 @@ if __name__ == '__main__':
     request.map_field['a'] = 9
     request.map_field['b'] = 10
     request.number_field.value = 2.0
+    #request.timestamp_field.GetCurrentTime()
+    #request.timestamp_field.FromJsonString("2017-12-02T20:00:20.021-04:00")
+    #request.timestamp_field.FromDatetime(datetime.utcnow())
+    request.timestamp_field.FromDatetime(datetime(2017, 12, 2))
 
     print "SENDING: \n{}-----".format(request)
     response = stub.TypesDemo(request)

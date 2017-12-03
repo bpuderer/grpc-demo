@@ -3,6 +3,8 @@
 
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 service TypesDemoService {
     rpc TypesDemo (TestRequest) returns (TestResponse) {}
 }
@@ -17,6 +19,7 @@ message TestRequest {
     repeated string repeated_str_field = 6;
     map<string, int32> map_field = 7;
     Number number_field = 8;
+    google.protobuf.Timestamp timestamp_field = 9;
 }
 
 message TestResponse {
@@ -29,6 +32,7 @@ message TestResponse {
     repeated string repeated_str_field = 6;
     map<string, int32> map_field = 7;
     Number number_field = 8;
+    google.protobuf.Timestamp timestamp_field = 9;
 }
 
 message Number {
