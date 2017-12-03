@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+service Streamer {
+    rpc Stream (Request) returns (stream Response) {}
+}
+
+message Request {
+    float value = 1;
+}
+
+message Response {
+    float value = 1;
+}
