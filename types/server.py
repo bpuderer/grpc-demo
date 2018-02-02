@@ -22,6 +22,8 @@ class TypesDemoService(types_pb2_grpc.TypesDemoServiceServicer):
         response.map_field['a'] = 10
         response.map_field['b'] = 9
         response.number_field.value = 3.0
+        # response.oneof_str = "oneof string"
+        response.oneof_int32 = 28
         response.timestamp_field.FromJsonString("2017-12-02T20:00:20.021-04:00")
         print "SENDING:\n{}".format(response)
         return response
