@@ -20,7 +20,8 @@ class GrpcTestCase(unittest.TestCase):
     @staticmethod
     def request_builder(str_field=None, int_field=None, bool_field=None, float_field=None,
                         enum_field=None, repeated_str_field=None, map_field=None,
-                        number_field=None, timestamp_field_json_str=None):
+                        number_field=None, oneof_str=None, oneof_int32=None,
+                        timestamp_field_json_str=None):
         """Build TestRequest"""
 
         request = types_pb2.TestRequest()
@@ -41,6 +42,10 @@ class GrpcTestCase(unittest.TestCase):
                 request.map_field[key] = val
         if number_field is not None:
             request.number_field.value = number_field
+        if oneof_str is not None:
+            request.oneof_str = oneof_str
+        if oneof_int32 is not None:
+            request.oneof_int32 = oneof_int32
         if timestamp_field_json_str is not None:
             request.timestamp_field.FromJsonString(timestamp_field_json_str)
         return request
@@ -50,10 +55,9 @@ class GrpcTestCase(unittest.TestCase):
         """test demo"""
 
         request = self.request_builder("str_field value", 42, True, 28.3, 1, ["spam", "eggs"],
-                                       {'a': 9, 'b': 10}, 2.0, "2017-12-03T14:17:00.000-04:00")
-
+                                       {'a': 9, 'b': 10}, 2.0, oneof_int32=28,
+                                       timestamp_field_json_str="2017-12-03T14:17:00.000-04:00")
         response = self._stub.TypesDemo(request)
-
         self.assertEqual(response.str_field, "str_field value from server")
 
 
