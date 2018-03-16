@@ -1,64 +1,33 @@
-""" grpc tests """
+"""grpc tests"""
 
 import unittest
 
 import grpc
 
-import types_pb2
-import types_pb2_grpc
+from types_pb2_grpc import TypesDemoServiceStub
+from builders import test_request_builder
 
 
 class GrpcTestCase(unittest.TestCase):
-    """ grpc test case """
+    """grpc test case"""
 
     @classmethod
     def setUpClass(cls):
         """class setup"""
+
         cls._channel = grpc.insecure_channel('localhost:50051')
-        cls._stub = types_pb2_grpc.TypesDemoServiceStub(cls._channel)
-
-    @staticmethod
-    def request_builder(str_field=None, int_field=None, bool_field=None, float_field=None,
-                        enum_field=None, repeated_str_field=None, map_field=None,
-                        number_field=None, oneof_str=None, oneof_int32=None,
-                        timestamp_field_json_str=None):
-        """Build TestRequest"""
-
-        request = types_pb2.TestRequest()
-        if str_field is not None:
-            request.str_field = str_field
-        if int_field is not None:
-            request.int_field = int_field
-        if bool_field is not None:
-            request.bool_field = bool_field
-        if float_field is not None:
-            request.float_field = float_field
-        if enum_field is not None:
-            request.enum_field = enum_field
-        if repeated_str_field is not None:
-            request.repeated_str_field.extend(repeated_str_field)
-        if map_field is not None:
-            for key, val in map_field.iteritems():
-                request.map_field[key] = val
-        if number_field is not None:
-            request.number_field.value = number_field
-        if oneof_str is not None:
-            request.oneof_str = oneof_str
-        if oneof_int32 is not None:
-            request.oneof_int32 = oneof_int32
-        if timestamp_field_json_str is not None:
-            request.timestamp_field.FromJsonString(timestamp_field_json_str)
-        return request
+        cls._stub = TypesDemoServiceStub(cls._channel)
 
 
     def test_demo(self):
         """test demo"""
 
-        request = self.request_builder("str_field value", 42, True, 28.3, 1, ["spam", "eggs"],
-                                       {'a': 9, 'b': 10}, 2.0, oneof_int32=28,
-                                       timestamp_field_json_str="2017-12-03T14:17:00.000-04:00")
+        request_args = {"str_field": "str_field value", "int_field": 42, "bool_field": True, "float_field": 28.3, "enum_field": 1, "repeated_str_field": ["spam", "eggs"], "map_field": {"a": 9, "b": 10}, "number_field": 2.0, "oneof_int32": 28, "timestamp_field": "2018-03-16T08:00:00Z"}
+        request = test_request_builder(**request_args)
+        #print "REQUEST:\n{}-----".format(request)
         response = self._stub.TypesDemo(request)
-        self.assertEqual(response.str_field, "str_field value from server")
+        #print "RESPONSE:\n{}".format(response)
+        self.assertEqual(response.status, "OK")
 
 
 if __name__ == '__main__':

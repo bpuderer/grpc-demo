@@ -27,20 +27,8 @@ message TestRequest {
 }
 
 message TestResponse {
-    string str_field = 1;
-    int32 int_field = 2;
-    bool bool_field = 3;
-    float float_field = 4;
-    enum EnumField { VAL1=0; VAL2=1; }
-    EnumField enum_field = 5;
-    repeated string repeated_str_field = 6;
-    map<string, int32> map_field = 7;
-    Number number_field = 8;
-    oneof test_oneof {
-        string oneof_str = 9;
-        int32 oneof_int32 = 10;
-    }
-    google.protobuf.Timestamp timestamp_field = 11;
+    string status = 1;
+    string tracking_id = 2;
 }
 
 message Number {
