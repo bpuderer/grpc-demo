@@ -3,9 +3,10 @@
 import unittest
 
 import grpc
+from google.protobuf import json_format
 
+from types_pb2 import TestRequest
 from types_pb2_grpc import TypesDemoServiceStub
-from builders import test_request_builder
 
 
 class GrpcTestCase(unittest.TestCase):
@@ -22,11 +23,14 @@ class GrpcTestCase(unittest.TestCase):
     def test_demo(self):
         """test demo"""
 
-        request_args = {"str_field": "str_field value", "int_field": 42, "bool_field": True, "float_field": 28.3, "enum_field": 1, "repeated_str_field": ["spam", "eggs"], "map_field": {"a": 9, "b": 10}, "number_field": 2.0, "oneof_int32": 28, "timestamp_field": "2018-03-16T08:00:00Z"}
-        request = test_request_builder(**request_args)
-        #print "REQUEST:\n{}-----".format(request)
+        with open("request1.json") as f:
+            json_str = f.read()
+        request = json_format.Parse(json_str, TestRequest())
+        print "REQUEST:\n{}-----".format(request)
+
         response = self._stub.TypesDemo(request)
-        #print "RESPONSE:\n{}".format(response)
+        print "RESPONSE:\n{}".format(response)
+
         self.assertEqual(response.status, "OK")
 
 

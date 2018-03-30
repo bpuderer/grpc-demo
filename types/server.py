@@ -5,14 +5,14 @@ from concurrent import futures
 import grpc
 
 import types_pb2_grpc
-from builders import test_response_builder
+from types_pb2 import TestResponse
 
 
 class TypesDemoService(types_pb2_grpc.TypesDemoServiceServicer):
 
     def TypesDemo(self, request, context):
         print "RECEIVED:\n{}-----".format(request)
-        response = test_response_builder("OK", str(uuid.uuid4()))
+        response = TestResponse(status="OK", tracking_id=str(uuid.uuid4()))
         print "SENDING:\n{}".format(response)
         return response
 

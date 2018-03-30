@@ -1,0 +1,20 @@
+{
+    "bool_field": true,
+    "enum_field": 1,
+    "float_field": 28.3,
+    "int_field": 42,
+    "map_field": {
+        "a": 9,
+        "b": 10
+    },
+    "number_field": {
+        "value": 2.0
+    },
+    "oneof_int32": 28,
+    "repeated_str_field": [
+        "spam",
+        "eggs"
+    ],
+    "str_field": "str_field value",
+    "timestamp_field": "2018-03-16T08:00:00Z"
+}
