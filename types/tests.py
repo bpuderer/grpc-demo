@@ -31,6 +31,9 @@ class GrpcTestCase(unittest.TestCase):
         response = self._stub.TypesDemo(request)
         print "RESPONSE:\n{}".format(response)
 
+        # MessageToJson returns str
+        print "in JSON format:\n{}".format(json_format.MessageToJson(response))
+
         self.assertEqual(response.status, "OK")
 
 
