@@ -3,23 +3,24 @@ from concurrent import futures
 
 import grpc
 
-import streamer_pb2
+from streamer_pb2 import Response
 import streamer_pb2_grpc
 
 
-class Streamer(streamer_pb2_grpc.StreamerServicer):
+class Streamer(streamer_pb2_grpc.TriplingStreamerServicer):
 
-    def Stream(self, request, context):
-        print "RECEIVED:\n{}".format(request)
+    def Triple(self, requests, context):
+        for request in requests:
+            print "RECEIVED:\n{}".format(request)
+            response = Response(result=request.num*3)
+            print "SENDING:\n{}".format(response)
+            yield response
 
-        for resp in [2.0, 4.0, 6.0]:
-            print "SENDING:\n{}".format(resp)
-            yield streamer_pb2.Response(value=resp)
 
 
 if __name__ == '__main__':
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    streamer_pb2_grpc.add_StreamerServicer_to_server(Streamer(), server)
+    streamer_pb2_grpc.add_TriplingStreamerServicer_to_server(Streamer(), server)
     print 'Starting server on port 50051'
     server.add_insecure_port('[::]:50051')
     server.start()
