@@ -16,7 +16,7 @@
         "eggs"
     ],
     "str_field": "str_field value",
-    "timestamp_field": "2018-03-16T08:00:00Z",
-    "duration_field" : "12s",
+    "timestamp_field": "2018-03-16T08:00:00.000Z",
+    "duration_field" : "12.000000001s",
     "bytes_field" : "c3RyaW5nIGluIGJ5dGVzX2ZpZWxkCg=="
 }
