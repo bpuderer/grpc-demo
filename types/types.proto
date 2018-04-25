@@ -4,6 +4,7 @@
 syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
 
 service TypesDemoService {
     rpc TypesDemo (TestRequest) returns (TestResponse) {}
@@ -24,6 +25,8 @@ message TestRequest {
         int32 oneof_int32 = 10;
     }
     google.protobuf.Timestamp timestamp_field = 11;
+    google.protobuf.Duration duration_field = 12;
+    bytes bytes_field = 13;
 }
 
 message TestResponse {
