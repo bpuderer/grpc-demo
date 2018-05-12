@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 from concurrent import futures
 
 import grpc
@@ -13,8 +14,14 @@ class Doubler(doubler_pb2_grpc.DoublerServicer):
     def Double(self, request, context):
         response = doubler_pb2.Number()
         response.value = inanemath.double(request.value)
+        print "{}\tDouble\treceived: {}\treturning: {}".format(datetime.now(), request.value, response.value)
         return response
 
+    def AnotherDouble(self, request, context):
+        response = doubler_pb2.Number()
+        response.value = inanemath.double(request.value)
+        print "{}\tAnotherDouble\treceived: {}\treturning: {}".format(datetime.now(), request.value, response.value)
+        return response
 
 if __name__ == '__main__':
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
