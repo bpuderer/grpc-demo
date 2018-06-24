@@ -9,4 +9,4 @@ if __name__ == '__main__':
     stub = doubler_pb2_grpc.DoublerStub(channel)
     number = doubler_pb2.Number(value=3.0)
     response = stub.Double(number)
-    print "received: {}".format(response.value)
+    print("received: {}".format(response.value))

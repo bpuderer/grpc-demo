@@ -19,6 +19,12 @@ class GrpcTestCase(unittest.TestCase):
         cls._channel = grpc.insecure_channel('localhost:50051')
         cls._stub = TypesDemoServiceStub(cls._channel)
 
+    @classmethod
+    def tearDownClass(cls):
+        """class teardown"""
+
+        cls._channel.close()
+
 
     def test_demo(self):
         """test demo"""
@@ -26,13 +32,13 @@ class GrpcTestCase(unittest.TestCase):
         with open("request1.json") as f:
             json_str = f.read()
         request = json_format.Parse(json_str, TestRequest())
-        print "REQUEST:\n{}-----".format(request)
+        print("REQUEST:\n{}-----".format(request))
 
         response = self._stub.TypesDemo(request)
-        print "RESPONSE:\n{}".format(response)
+        print("RESPONSE:\n{}".format(response))
 
         # MessageToJson returns str
-        print "in JSON format:\n{}".format(json_format.MessageToJson(response))
+        print("in JSON format:\n{}".format(json_format.MessageToJson(response)))
 
         self.assertEqual(response.status, "OK")
 

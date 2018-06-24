@@ -11,17 +11,16 @@ class Streamer(streamer_pb2_grpc.TriplingStreamerServicer):
 
     def Triple(self, requests, context):
         for request in requests:
-            print "RECEIVED:\n{}".format(request)
+            print("RECEIVED:\n{}".format(request))
             response = Response(result=request.num*3)
-            print "SENDING:\n{}".format(response)
+            print("SENDING:\n{}".format(response))
             yield response
-
 
 
 if __name__ == '__main__':
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     streamer_pb2_grpc.add_TriplingStreamerServicer_to_server(Streamer(), server)
-    print 'Starting server on port 50051'
+    print('Starting server on port 50051')
     server.add_insecure_port('[::]:50051')
     server.start()
     try:
