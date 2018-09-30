@@ -11,9 +11,9 @@ from types_pb2 import TestResponse
 class TypesDemoService(types_pb2_grpc.TypesDemoServiceServicer):
 
     def TypesDemo(self, request, context):
-        print("RECEIVED:\n{}-----".format(request))
-        response = TestResponse(status="OK", tracking_id=str(uuid.uuid4()))
-        print("SENDING:\n{}".format(response))
+        print(f'RECEIVED:\n{request}-----')
+        response = TestResponse(status='OK', tracking_id=str(uuid.uuid4()))
+        print(f'SENDING:\n{response}')
         return response
 
 
