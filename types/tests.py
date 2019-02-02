@@ -4,6 +4,7 @@ import unittest
 
 import grpc
 from google.protobuf import json_format
+from google.protobuf.empty_pb2 import Empty
 
 from types_pb2 import TestRequest
 from types_pb2_grpc import TypesDemoServiceStub
@@ -33,7 +34,7 @@ class GrpcTestCase(unittest.TestCase):
         return json_format.Parse(json_str, request)
 
 
-    def test_demo(self):
+    def test_types_demo(self):
         """test demo"""
 
         request = GrpcTestCase.build_request('./request1.json', TestRequest())
@@ -57,6 +58,14 @@ class GrpcTestCase(unittest.TestCase):
         # MessageToJson returns str
         print(f'in JSON format:\n{json_format.MessageToJson(response)}')
 
+        self.assertEqual(response.status, 'OK')
+
+
+    def test_empty_request(self):
+        """test empty request"""
+
+        response = self._stub.EmptyRequestDemo(Empty())
+        print(f'RESPONSE:\n{response}')
         self.assertEqual(response.status, 'OK')
 
 

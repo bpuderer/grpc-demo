@@ -5,9 +5,11 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
 
 service TypesDemoService {
     rpc TypesDemo (TestRequest) returns (TestResponse) {}
+    rpc EmptyRequestDemo (google.protobuf.Empty) returns (TestResponse) {}
 }
 
 message TestRequest {

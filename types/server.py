@@ -16,6 +16,11 @@ class TypesDemoService(types_pb2_grpc.TypesDemoServiceServicer):
         print(f'SENDING:\n{response}')
         return response
 
+    def EmptyRequestDemo(self, request, context):
+        print(f'RECEIVED:\n{request}-----')
+        response = TestResponse(status='OK', tracking_id=str(uuid.uuid4()))
+        print(f'SENDING:\n{response}')
+        return response
 
 if __name__ == '__main__':
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
