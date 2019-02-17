@@ -10,6 +10,8 @@ from types_pb2 import TestRequest
 from types_pb2_grpc import TypesDemoServiceStub
 
 
+TIMEOUT_SEC = 0.15
+
 class GrpcTestCase(unittest.TestCase):
     """grpc test case"""
 
@@ -52,7 +54,7 @@ class GrpcTestCase(unittest.TestCase):
 
         print(f'REQUEST:\n{request}-----')
 
-        response = self._stub.TypesDemo(request)
+        response = self._stub.TypesDemo(request, timeout=TIMEOUT_SEC)
         print(f'RESPONSE:\n{response}')
 
         # MessageToJson returns str
@@ -64,7 +66,7 @@ class GrpcTestCase(unittest.TestCase):
     def test_empty_request(self):
         """test empty request"""
 
-        response = self._stub.EmptyRequestDemo(Empty())
+        response = self._stub.EmptyRequestDemo(Empty(), timeout=TIMEOUT_SEC)
         print(f'RESPONSE:\n{response}')
         self.assertEqual(response.status, 'OK')
 
