@@ -6,7 +6,7 @@ import grpc
 from google.protobuf import json_format
 from google.protobuf.empty_pb2 import Empty
 
-from types_pb2 import TestRequest
+from types_pb2 import TestRequest, EnumType
 from types_pb2_grpc import TypesDemoServiceStub
 
 
@@ -42,6 +42,7 @@ class GrpcTestCase(unittest.TestCase):
         request = GrpcTestCase.build_request('./request1.json', TestRequest())
 
         # change some vals
+        request.enum_field = EnumType.Value('VAL3')
         request.repeated_str_field.append('spam')
         request.map_field['c'] = 11
         request.number_field.value = 28
@@ -59,6 +60,7 @@ class GrpcTestCase(unittest.TestCase):
 
         # MessageToJson returns str
         print(f'in JSON format:\n{json_format.MessageToJson(response)}')
+        print(f'returned timestamp_field as datetime: {response.timestamp_field.ToDatetime()}')
 
         self.assertEqual(response.status, 'OK')
 

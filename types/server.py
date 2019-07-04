@@ -13,12 +13,14 @@ class TypesDemoService(types_pb2_grpc.TypesDemoServiceServicer):
     def TypesDemo(self, request, context):
         print(f'RECEIVED:\n{request}-----')
         response = TestResponse(status='OK', tracking_id=str(uuid.uuid4()))
+        response.timestamp_field.GetCurrentTime()
         print(f'SENDING:\n{response}')
         return response
 
     def EmptyRequestDemo(self, request, context):
         print(f'RECEIVED:\n{request}-----')
         response = TestResponse(status='OK', tracking_id=str(uuid.uuid4()))
+        response.timestamp_field.GetCurrentTime()
         print(f'SENDING:\n{response}')
         return response
 
