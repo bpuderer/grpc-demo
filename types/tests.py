@@ -6,11 +6,12 @@ import grpc
 from google.protobuf import json_format
 from google.protobuf.empty_pb2 import Empty
 
-from types_pb2 import TestRequest, EnumType
+from types_pb2 import TestRequest, ENUMTYPE_VAL3
 from types_pb2_grpc import TypesDemoServiceStub
 
 
 TIMEOUT_SEC = 0.15
+METADATA = (('key1', 'val1'), ('key2', 'val2'),)
 
 class GrpcTestCase(unittest.TestCase):
     """grpc test case"""
@@ -18,14 +19,12 @@ class GrpcTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """class setup"""
-
         cls._channel = grpc.insecure_channel('localhost:50051')
         cls._stub = TypesDemoServiceStub(cls._channel)
 
     @classmethod
     def tearDownClass(cls):
         """class teardown"""
-
         cls._channel.close()
 
     @staticmethod
@@ -42,7 +41,8 @@ class GrpcTestCase(unittest.TestCase):
         request = GrpcTestCase.build_request('./request1.json', TestRequest())
 
         # change some vals
-        request.enum_field = EnumType.Value('VAL3')
+        # request.enum_field = 2
+        request.enum_field = ENUMTYPE_VAL3
         request.repeated_str_field.append('spam')
         request.map_field['c'] = 11
         request.number_field.value = 28
@@ -55,9 +55,9 @@ class GrpcTestCase(unittest.TestCase):
 
         print(f'REQUEST:\n{request}-----')
 
-        response = self._stub.TypesDemo(request, timeout=TIMEOUT_SEC)
-        print(f'RESPONSE:\n{response}')
 
+        response = self._stub.TypesDemo(request, timeout=TIMEOUT_SEC, metadata=METADATA)
+        print(f'RESPONSE:\n{response}')
         # MessageToJson returns str
         print(f'in JSON format:\n{json_format.MessageToJson(response)}')
         print(f'returned timestamp_field as datetime: {response.timestamp_field.ToDatetime()}')
