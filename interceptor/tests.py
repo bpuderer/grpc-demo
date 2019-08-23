@@ -14,15 +14,15 @@ class GrpcTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        channel = grpc.insecure_channel('localhost:50051')
         interceptor = header_adder_interceptor(METADATA)
-        cls._channel = grpc.insecure_channel('localhost:50051')
-        intercept_channel = grpc.intercept_channel(cls._channel, interceptor)
-        cls._stub = TypesDemoServiceStub(intercept_channel)
+        cls._intercept_channel = grpc.intercept_channel(channel, interceptor)
+        cls._stub = TypesDemoServiceStub(cls._intercept_channel)
 
 
     @classmethod
     def tearDownClass(cls):
-        cls._channel.close()
+        cls._intercept_channel.close()
 
 
     def test_types_demo(self):
